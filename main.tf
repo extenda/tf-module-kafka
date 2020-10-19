@@ -49,12 +49,12 @@ resource "kafka_topic" "topic" {
 }
 
 resource "kafka_acl" "acl" {
-  for_each = { for acl in var.acls : "${acl.resource_type}.${acl.resource_name}" => acl }
+  count = length(var.topics)
 
-  resource_name       = each.value.resource_name
-  resource_type       = each.value.resource_type
-  acl_principal       = each.value.acl_principal
-  acl_host            = each.value.acl_host
-  acl_operation       = each.value.acl_operation
-  acl_permission_type = each.value.acl_permission_type
+  resource_name       = var.acls[count.index].resource_name
+  resource_type       = var.acls[count.index].resource_type
+  acl_principal       = var.acls[count.index].acl_principal
+  acl_host            = var.acls[count.index].acl_host
+  acl_operation       = var.acls[count.index].acl_operation
+  acl_permission_type = var.acls[count.index].acl_permission_type
 }
