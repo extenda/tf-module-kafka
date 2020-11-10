@@ -49,7 +49,7 @@ resource "kafka_topic" "topic" {
 }
 
 resource "kafka_acl" "acl" {
-  count = length(var.topics)
+  count = length(var.acls)
 
   resource_name       = var.acls[count.index].resource_name
   resource_type       = var.acls[count.index].resource_type
