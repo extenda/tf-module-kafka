@@ -3,7 +3,7 @@ data "google_secret_manager_secret_version" "kafka_url" {
 
   count   = (var.kafka_url == "" && var.project_id != "") ? 1 : 0
   project = var.project_id
-  secret  = "kafka_url"
+  secret  = "kafka_cluster_bootstrap_server"
 }
 
 data "google_secret_manager_secret_version" "kafka_key" {
@@ -11,7 +11,7 @@ data "google_secret_manager_secret_version" "kafka_key" {
 
   count   = (var.kafka_key == "" && var.project_id != "") ? 1 : 0
   project = var.project_id
-  secret  = "kafka_key"
+  secret  = "kafka_cluster_api_key"
 }
 
 data "google_secret_manager_secret_version" "kafka_secret" {
@@ -19,7 +19,7 @@ data "google_secret_manager_secret_version" "kafka_secret" {
 
   count   = (var.kafka_secret == "" && var.project_id != "") ? 1 : 0
   project = var.project_id
-  secret  = "kafka_secret"
+  secret  = "kafka_cluster_api_secret"
 }
 
 
