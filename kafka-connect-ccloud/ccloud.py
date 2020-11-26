@@ -28,9 +28,9 @@ def delete_connection_config():
 
 
 def ccloud_login(login, password):
-    testcmd = subprocess.run('./ccloud/ccloud connector list', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    testcmd = subprocess.run('./ccloud/ccloud connector list', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
     if 'Error: not logged in' in testcmd.stderr:
-        logincmd = subprocess.Popen('./ccloud/ccloud login --prompt --no-browser', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=0, text=True)
+        logincmd = subprocess.Popen('./ccloud/ccloud login --prompt --no-browser', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=0, encoding='utf-8')
         output = ''
         while 'Email: ' not in output: output+=logincmd.stdout.read(1)
         logincmd.stdin.write('%s\n' % login)
@@ -42,7 +42,7 @@ def ccloud_login(login, password):
 
 
 def get_real_connection_config(environment, cluster, id):
-    cmd = subprocess.run('./ccloud/ccloud connector describe --environment %s --cluster %s %s -o json' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, text=True)
+    cmd = subprocess.run('./ccloud/ccloud connector describe --environment %s --cluster %s %s -o json' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8')
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
     config = {}
@@ -60,7 +60,7 @@ def create():
     environment = os.environ['CONFLUENT_ENVIRONMENT']
     cluster = os.environ['CONFLUENT_CLUSTER']
     create_connection_config()
-    cmd = subprocess.run('./ccloud/ccloud connector create --environment %s --cluster %s --config connection.config' % (environment, cluster), shell=True, stdout=subprocess.PIPE, text=True)
+    cmd = subprocess.run('./ccloud/ccloud connector create --environment %s --cluster %s --config connection.config' % (environment, cluster), shell=True, stdout=subprocess.PIPE, encoding='utf-8')
     delete_connection_config()
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
@@ -78,7 +78,7 @@ def delete():
     cluster = os.environ['CONFLUENT_CLUSTER']
     id = previous_output['id']
 
-    cmd = subprocess.run('./ccloud/ccloud connector delete --environment %s --cluster %s %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, text=True)
+    cmd = subprocess.run('./ccloud/ccloud connector delete --environment %s --cluster %s %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8')
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
 
@@ -104,7 +104,7 @@ def update():
     id = previous_output['id']
 
     create_connection_config()
-    cmd = subprocess.run('./ccloud/ccloud connector update --environment %s --cluster %s --config connection.config %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, text=True)
+    cmd = subprocess.run('./ccloud/ccloud connector update --environment %s --cluster %s --config connection.config %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8')
     delete_connection_config()
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
