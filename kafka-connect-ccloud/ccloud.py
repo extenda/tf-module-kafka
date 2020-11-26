@@ -55,7 +55,7 @@ def get_real_connection_config(environment, cluster, id):
 # ------------ terraform commands ------------
 
 def create():
-    ccloud_login(os.environ['CONFLUENT_LOGIN'], os.environ['CONFLUENT_PASSWORD'])
+    ccloud_login(os.environ['CONFLUENT_USERNAME'], os.environ['CONFLUENT_PASSWORD'])
 
     environment = os.environ['CONFLUENT_ENVIRONMENT']
     cluster = os.environ['CONFLUENT_CLUSTER']
@@ -71,7 +71,7 @@ def create():
 
 
 def delete():
-    ccloud_login(os.environ['CONFLUENT_LOGIN'], os.environ['CONFLUENT_PASSWORD'])
+    ccloud_login(os.environ['CONFLUENT_USERNAME'], os.environ['CONFLUENT_PASSWORD'])
 
     previous_output = json.loads(sys.stdin.read())
     environment = os.environ['CONFLUENT_ENVIRONMENT']
@@ -84,7 +84,7 @@ def delete():
 
 
 def read():
-    ccloud_login(os.environ['CONFLUENT_LOGIN'], os.environ['CONFLUENT_PASSWORD'])
+    ccloud_login(os.environ['CONFLUENT_USERNAME'], os.environ['CONFLUENT_PASSWORD'])
 
     previous_output = json.loads(sys.stdin.read())
     environment = os.environ['CONFLUENT_ENVIRONMENT']
@@ -96,7 +96,7 @@ def read():
 
 
 def update():
-    ccloud_login(os.environ['CONFLUENT_LOGIN'], os.environ['CONFLUENT_PASSWORD'])
+    ccloud_login(os.environ['CONFLUENT_USERNAME'], os.environ['CONFLUENT_PASSWORD'])
 
     previous_output = json.loads(sys.stdin.read())
     environment = os.environ['CONFLUENT_ENVIRONMENT']
