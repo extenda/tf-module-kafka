@@ -9,10 +9,10 @@ import tarfile
 
 def download_ccloud():
     if not os.path.exists('ccloud/ccloud'):
-        url = 'https://s3-us-west-2.amazonaws.com/confluent.cloud/ccloud-cli/archives/latest/ccloud_latest_linux_amd64.tar.gz'
-        os.system('curl -o ccloud_latest_linux_amd64.tar.gz %s' % url)
-        os.system('tar -xzf ccloud_latest_linux_amd64.tar.gz ccloud/ccloud')
-        os.remove('ccloud_latest_linux_amd64.tar.gz')
+        url = 'https://s3-us-west-2.amazonaws.com/confluent.cloud/ccloud-cli/archives/latest/ccloud_latest_%s_amd64.tar.gz' % sys.platform
+        os.system('curl -o ccloud.tar.gz %s' % url)
+        os.system('tar -xzf ccloud.tar.gz ccloud/ccloud')
+        os.remove('ccloud.tar.gz')
 
 
 def create_connection_config():
@@ -30,7 +30,7 @@ def delete_connection_config():
 def ccloud_login(login, password):
     testcmd = subprocess.run('./ccloud/ccloud connector list', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if 'Error: not logged in' in testcmd.stderr:
-        logincmd = subprocess.Popen('./ccloud/ccloud login', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=0, text=True)
+        logincmd = subprocess.Popen('./ccloud/ccloud login --prompt --no-browser', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=0, text=True)
         output = ''
         while 'Email: ' not in output: output+=logincmd.stdout.read(1)
         logincmd.stdin.write('%s\n' % login)
