@@ -5,9 +5,6 @@ This is Terraform module for creating kafka-connect connections in Confluent Clo
 Native Terraform Kafka-connect module can't authenticate, thats why this module was created.
 It uses [shell](https://github.com/scottwinkler/terraform-provider-shell) provider and wrap `ccloud` commands for creating and deleting connections.
 
-Note: `shell` module works in the way that changing any of resource configuration will trigger _replace_ the resource.
-So update the connection in place cannot be done, despite `ccloud` and `cloud.py` wrapper support it.
-
 Example of `connection_config` and `connection_sensitive_config` for create managed sink to Elasticsearch:
 
 ```json

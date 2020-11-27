@@ -66,7 +66,7 @@ def create():
         sys.exit(cmd.returncode)
     id = cmd.stdout.split(' ')[-1].strip()
 
-    output = get_real_connection_config(environment, cluster, id = id)
+    output = get_real_connection_config(environment, cluster, id)
     print(json.dumps(output))
 
 
@@ -91,7 +91,7 @@ def read():
     cluster = os.environ['CONFLUENT_CLUSTER']
     id = previous_output['id']
 
-    output = get_real_connection_config(environment, cluster, id = id)
+    output = get_real_connection_config(environment, cluster, id)
     print(json.dumps(output))
 
 
@@ -109,7 +109,7 @@ def update():
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
 
-    output = get_real_connection_config(environment, cluster, id = id)
+    output = get_real_connection_config(environment, cluster, id)
     print(json.dumps(output))
 
 
