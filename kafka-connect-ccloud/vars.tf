@@ -31,9 +31,23 @@ variable confluent_cluster {
 variable connection_config {
   description = "Map of connection configuration"
   type        = map(string)
+  default     = {}
 }
 
 variable connection_sensitive_config {
   description = "Map of connection configuration with sensitive data"
   type        = map(string)
+  default     = {}
+}
+
+variable connection_gcp_secret_project {
+  description = "GCP project ID having secrets for connection_gcp_secret_config"
+  type        = string
+  default     = ""
+}
+
+variable connection_gcp_secret_config {
+  description = "Map of connection configuration with gcp secret names, from which values are taken"
+  type        = map(string)
+  default     = {}
 }

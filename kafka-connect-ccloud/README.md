@@ -33,19 +33,33 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 
 ```
 
+Instead of defining sensitive config derectly config values could be fetched from GCP secrets:
+
+```json
+"connection_gcp_secret_project": "project-abcd",
+
+"connection_gcp_secret_config": {
+    "kafka.api.key": "kafka_cluster_api_key"
+    "kafka.api.secret": "kafka_cluster_api_secret",
+    "connection.username": "elastic_username",
+    "connection.password": "elastic_password",
+}
+
+```
+
 
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| shell | 1.7.3 |
+| shell | 1.7.7 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | google-beta | n/a |
-| shell | 1.7.3 |
+| shell | 1.7.7 |
 
 ## Inputs
 
@@ -56,8 +70,10 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 | confluent\_password | Confluentcloud password or GCP secretname to extract password if var.confluent\_project\_gcp\_secret provided | `string` | `"confluent-password"` | no |
 | confluent\_project\_gcp\_secret | GCP project ID having secret for confluentcloud credentials | `string` | `"tf-admin-90301274"` | no |
 | confluent\_username | Confluentcloud username or GCP secretname to extract username if var.confluent\_project\_gcp\_secret provided | `string` | `"confluent-username"` | no |
-| connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | n/a | yes |
-| connection\_config | Map of connection configuration | `map(string)` | n/a | yes |
+| connection\_config | Map of connection configuration | `map(string)` | `{}` | no |
+| connection\_gcp\_secret\_config | Map of connection configuration with gcp secret names, from which values are taken | `map(string)` | `{}` | no |
+| connection\_gcp\_secret\_project | GCP project ID having secrets for connection\_gcp\_secret\_config | `string` | `""` | no |
+| connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | `{}` | no |
 
 ## Outputs
 
