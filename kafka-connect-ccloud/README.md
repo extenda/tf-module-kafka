@@ -33,7 +33,7 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 
 ```
 
-Instead of defining sensitive config derectly config values could be fetched from GCP secrets:
+Instead of defining sensitive config values directly they could be fetched from GCP secrets:
 
 ```json
 "connection_gcp_secret_project": "project-abcd",
