@@ -19,7 +19,7 @@ def create_connection_config():
     config = {}
     for k, v in os.environ.items():
         if k[:11] == 'CONNECTION_':
-            config[k[11:]] = v
+            config[k[11:].replace('__', '.')] = v
     open('connection.config', 'w').write(json.dumps(config, indent=2))
 
 

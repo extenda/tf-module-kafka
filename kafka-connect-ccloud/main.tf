@@ -36,7 +36,7 @@ resource "shell_script" "connection" {
       CONFLUENT_ENVIRONMENT = var.confluent_environment,
       CONFLUENT_CLUSTER     = var.confluent_cluster,
     },
-    { for k, v in var.connection_config : "CONNECTION_${k}" => v }
+    { for k, v in var.connection_config : "CONNECTION_${replace(k, ".", "__")}" => v }
   )
 
   sensitive_environment = merge(
@@ -44,7 +44,7 @@ resource "shell_script" "connection" {
       CONFLUENT_USERNAME = (var.confluent_project_gcp_secret != "") ? data.google_secret_manager_secret_version.confluent_username[0].secret_data : var.confluent_username
       CONFLUENT_PASSWORD = (var.confluent_project_gcp_secret != "") ? data.google_secret_manager_secret_version.confluent_password[0].secret_data : var.confluent_password
     },
-    { for k, v in var.connection_sensitive_config : "CONNECTION_${k}" => v },
-    { for k, v in var.connection_gcp_secret_config : "CONNECTION_${k}" => data.google_secret_manager_secret_version.connection_secret_config[k].secret_data }
+    { for k, v in var.connection_sensitive_config : "CONNECTION_${replace(k, ".", "__")}" => v },
+    { for k, v in var.connection_gcp_secret_config : "CONNECTION_${replace(k, ".", "__")}" => data.google_secret_manager_secret_version.connection_secret_config[k].secret_data }
   )
 }
