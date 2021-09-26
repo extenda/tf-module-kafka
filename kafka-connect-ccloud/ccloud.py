@@ -7,7 +7,7 @@ import subprocess
 import tarfile
 
 
-import_existing_connection = True
+import_existing_connection = False
 
 
 def download_ccloud():
