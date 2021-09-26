@@ -1,6 +1,7 @@
 output "kafka_url" {
   description = "URL of the kafka cluster"
   value       = local.bootstrap_servers
+  sensitive   = true
 }
 
 output "key" {
