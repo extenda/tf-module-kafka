@@ -8,7 +8,7 @@ import requests
 
 import_existing_connection = False
 
-FORWARDED_PORT='8083'
+FORWARDED_PORT='25001'
 BASE_ENDPOINT='http://localhost:' + FORWARDED_PORT
 
 def port_forward():
@@ -23,7 +23,7 @@ def port_forward():
 
 #If necessary, terminate the process on port 25001 ( after curl commands are run )
 def terminate_port_forward():
-    subprocess.run(["kill $(lsof -t -i:25001)"], shell=True)
+    subprocess.run(["kill $(lsof -t -i:"+FORWARDED_PORT+")"], shell=True)
 
 
 def create_connection_config():
