@@ -18,31 +18,6 @@ CONNECTION_NAME_KEY = 'CONNECTION_name'
 FORWARDED_PORT='25001'
 BASE_ENDPOINT='http://localhost:' + FORWARDED_PORT
 
-# credential = {
-#         "type": "service_account",
-#         "project_id": "pnp-staging-dcfd",
-#         "private_key_id": "0f364db8bd98f358c042893df4fe2dc41672bdf4",
-#         "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0h+bLJpowJ75y\nuo3t5A+MHjpW0ZrmfwGa+c65a2UBE2+W2pszVGNq2gH3oYCfK4Ay4qeSv7kZbLJk\nlGgeRNZ5DO9+1esJlpoCBrZC5B17vjg9gCrhvpyLYrWXQDzpNeOVC8mTVKAsun1X\nC5JTEfLPa+LX8wSK50WEWa68IuSNKMb1bTlPxpjTAW1RYyMuMWiXDnPi2VBsqUcq\n5BcC5/CnD8vMy7DB8NGbJXGcnYt5CY0MiM+DOTd5RKAKx+lr8DfhzrNdjb7rbWLr\nSm4MfyBpAbSCgvQoPHgqbXeK5jzG+6uST4Lsy86f7AWUBZ2z2UXlBpVkDVj87IRu\nz5VcrdO9AgMBAAECggEABWCG30YnEYgdhA1KbOt+Cw5bbnqPwo3F3nfSUHOCbqXF\njRi1xrGcxHH53QZSbms9Rka59wT+3mL+bUB+WWhzeueHup9kgMSbkbPhedyRhD4G\nLs7CeDbVMtGd1wNyzP9t5+KR/nFm0+46DX2qvg6qzMLJ3uS+HeUFjQueyLvBUvL3\nD5gW70Z17FWla5XE1SxJgpB20/O8Wz1v9SO/XwUgxLaF9DQMDbm4GIAts4CgdUM6\nmSa4qTuku4IMx575lC/S9V0Nb9zN6k3VRxv+RsNDm7PSz3X5RWL65TfmO65Cg+hP\nLrbN0HKtpngGfcM62dpE5+PSf1/Ctt/oU6PPqGMIAQKBgQD1A3rx+qOZceihl4aM\n4PP59IxOEeaW5ccU0TfvPlk4HXe54czNV7gUBfHugVlc76OYqX4F5PynKOcCP8fO\nODDz/yK7babdTsHqrug1VsC4rg58Y2pgxskfimZDWBpmq4ZQnSY7ywTUH3nX8sDE\nQth2Qaq1QOk8CgwhHlyFNGS+DQKBgQC8oDjERLEBHG6ZNDKQq4Ty+24H3CckrXfP\nY62pgNHlaSmOaa8d78J4C7j+bVJZ1HSpUhUKrFxOU6xEZLzNJex99Y45ZBEj08jm\nzQD9mCoo6jzbXOUR5ApkI9u8H1JeN2p1ULQ5lziKFsicFYCSetLPWt61wDjSosuC\nUw3oyYGwcQKBgQCWsoZLEQLQ3SvdP+qE+dN1+MDXP9FZHIj/N9O0dd/AUPeTv9sM\nrZhN0H5GWQ6Sx94ShqU5kOcJFXJIgtws7YjGejVtnHrWgZtp8hxmui4dKQlF3ovO\nbFXF7YUKhMTwQy2ApbefbTZSFe4GMYv46rhiu+74Pq11vSRKtnbngxs3fQKBgGT/\nWUXmDeytX57Srxx9amN8Mw8sVx0xcMxv7+Wpnzm6FFE3z1c1MKh8hmJdANIuiwS6\neZ/MaGRcMwov8lPaMYXEPJIIPZE0bgb+z7/5gOGFgm5mkBUDSHkUJizVjJH8FBma\ny9VmXhS6XFIOxVgpQcVbP5KLySEnn9Y5SGJTuwhRAoGAa7VXFakyUppeOkDaBa1S\n3JTx6PiXSYBGQQ78ZgmoAn9OJdhKpJimDEbY6zUJlFicYPS8XfnYHQ0VFtnEbhrF\n+h0MFs6hp2OoBte9C/lNL8MFHU9S5EZ7p008Jeb25DyU2BNJ/KiYIzlyXZ1FG6/m\npzWHnJmA2pLEI/bIzveezmM=\n-----END PRIVATE KEY-----\n",
-#         "client_email": "pnp-sm-kafka-connect@pnp-staging-dcfd.iam.gserviceaccount.com",
-#         "client_id": "101071840494534977300",
-#         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-#         "token_uri": "https://oauth2.googleapis.com/token",
-#         "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-#         "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pnp-sm-kafka-connect%40pnp-staging-dcfd.iam.gserviceaccount.com"
-# }
-# props={
-#     'CONNECTION_connector__class':'com.google.pubsub.kafka.sink.CloudPubSubSinkConnector' ,
-#     'CONNECTION_name':'sink-pnp-public-output-deposit-rules-v2-pusub' ,
-#     'CONNECTION_tasks__max':'1',
-#     'CONNECTION_topics':'pnp.public.output.deposit-rules.v2' ,
-#     'CONNECTION_cps__topic':'pnp.public.output.deposit-rules.v2' ,
-#     'CONNECTION_cps__project':'pnp-staging-dcfd'
-#     }
-# def set_environ_items():
-#     for k, v in props.items():
-#         os.environ[k] = v
-#     os.environ['CONNECTION_gcp__credentials__json'] = json.dumps(credential)
-
 def port_forward():
     #Connect to cluster
     project = subprocess.run(["gcloud config list --format 'value(core.project)' 2>/dev/null"], capture_output=True, shell=True).stdout.decode('utf-8')
