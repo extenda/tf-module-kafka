@@ -32,6 +32,11 @@ def port_forward():
 def terminate_port_forward():
     subprocess.run(["kill $(lsof -t -i:"+FORWARDED_PORT+")"], shell=True)
 
+def check_connection():
+    result = get_request('/connectors')
+    if result.status_code == 200:
+        return True
+    return False
 
 def create_post_payload():
     payload = {}
@@ -122,6 +127,9 @@ if __name__=='__main__':
     if not os.environ[CONNECTION_NAME_KEY]:
         sys.exit('Connection Name does not exists !!')
     port_forward()
+    if not check_connection():
+        terminate_port_forward()
+        sys.exit('Can not connect Self-Managed Kafka Connect')
     read()
     # if len(sys.argv) > 1:
     #     if sys.argv[1]=='create':
