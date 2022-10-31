@@ -100,13 +100,13 @@ def save():
         payload = create_post_payload()
         post_request('/connectors',json.dumps(payload))
         print(f'{os.environ[CONNECTION_NAME_KEY]} New Config : ')
-        print(get_connector(os.environ[CONNECTION_NAME_KEY]))
+        if connector_exists():
+            print(f'{os.environ[CONNECTION_NAME_KEY]} successfuly created')
     else:
         print(f'{os.environ[CONNECTION_NAME_KEY]} exists. Updating Connector')
         payload = create_config()
         put_request(f'/connectors/{os.environ[CONNECTION_NAME_KEY]}/config',json.dumps(payload))
-        print(f'{os.environ[CONNECTION_NAME_KEY]} New Config : ')
-        print(get_connector(os.environ[CONNECTION_NAME_KEY]))
+        print(f'{os.environ[CONNECTION_NAME_KEY]} updated')
 
 def delete():
     delete_request('/connectors/'+os.environ[CONNECTION_NAME_KEY])
