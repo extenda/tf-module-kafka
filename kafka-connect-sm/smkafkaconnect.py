@@ -130,7 +130,7 @@ if __name__=='__main__':
     if not check_connection():
         terminate_port_forward()
         sys.exit('Can not connect Self-Managed Kafka Connect')
-    read()
+    print('Connected to Self-Managed Kafka Connect')
     # if len(sys.argv) > 1:
     #     if sys.argv[1]=='create':
     #         save()
