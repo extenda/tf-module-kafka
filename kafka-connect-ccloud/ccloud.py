@@ -73,7 +73,7 @@ def create():
         delete_connection_config()
         if cmd.returncode != 0:
             sys.exit(cmd.returncode)
-        id = cmd.stdout.split(' ')[-1].strip()
+        id = cmd.stdout.split(' ')[2].strip().replace('"','')
 
     output = get_real_connection_config(environment, cluster, id)
     print(json.dumps(output))
