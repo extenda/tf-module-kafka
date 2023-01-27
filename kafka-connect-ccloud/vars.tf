@@ -38,3 +38,15 @@ variable project_id {
   type        = string
   default     = ""
 }
+
+variable connection_gcp_secret_project {
+  description = "GCP project ID having secrets for connection_gcp_secret_config"
+  type        = string
+  default     = ""
+}
+
+variable connection_gcp_secret_config {
+  description = "Map of connection configuration with gcp secret names, from which values are taken"
+  type        = map(string)
+  default     = {}
+}
