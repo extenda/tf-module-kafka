@@ -14,6 +14,14 @@ data "google_secret_manager_secret_version" "confluent_api_secret" {
   secret  = "confluent_api_secret"
 }
 
+data "google_secret_manager_secret_version" "connection_secret_config" {
+  provider = google-beta
+
+  for_each = var.connection_gcp_secret_config
+  project  = var.connection_gcp_secret_project
+  secret   = each.value
+}
+
 locals {
   confluent_api_key    = var.confluent_api_key != "" ? var.confluent_api_key : data.google_secret_manager_secret_version.confluent_api_key[0].secret_data
   confluent_api_secret = var.confluent_api_secret != "" ? var.confluent_api_secret : data.google_secret_manager_secret_version.confluent_api_secret[0].secret_data
@@ -34,7 +42,12 @@ resource "confluent_connector" "connector" {
 
   // Block for custom *sensitive* configuration properties that are labelled with "Type: password" under "Configuration Properties" section in the docs:
   // https://docs.confluent.io/cloud/current/connectors/cc-elasticsearch-service-sink.html#configuration-properties
-  config_sensitive = var.connection_sensitive_config
+  config_sensitive = merge(
+    var.connection_sensitive_config,
+    {
+      for k, v in var.connection_gcp_secret_config : k => data.google_secret_manager_secret_version.connection_secret_config[k].secret_data
+    }
+  )
 
   // Block for custom *nonsensitive* configuration properties that are *not* labelled with "Type: password" under "Configuration Properties" section in the docs:
   // https://docs.confluent.io/cloud/current/connectors/cc-elasticsearch-service-sink.html#configuration-properties

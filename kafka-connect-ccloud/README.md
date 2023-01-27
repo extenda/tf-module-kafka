@@ -48,6 +48,8 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 | confluent\_cluster | ID of confluent cluster | `string` | n/a | yes |
 | confluent\_environment | ID of confluent environment | `string` | n/a | yes |
 | connection\_config | Map of connection configuration | `map(string)` | `{}` | no |
+| connection\_gcp\_secret\_config | Map of connection configuration with gcp secret names, from which values are taken | `map(string)` | `{}` | no |
+| connection\_gcp\_secret\_project | GCP project ID having secrets for connection\_gcp\_secret\_config | `string` | `""` | no |
 | connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | `{}` | no |
 | project\_id | The ID of the project in which Kafka secrets stored (if no kafka credentials provided) | `string` | `""` | no |
 
