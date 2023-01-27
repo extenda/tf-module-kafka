@@ -2,8 +2,6 @@
 
 This is Terraform module for creating kafka-connect connections in Confluent Cloud
 
-Native Terraform Kafka-connect module can't authenticate, thats why this module was created.
-It uses [shell](https://github.com/scottwinkler/terraform-provider-shell) provider and wrap `ccloud` commands for creating and deleting connections.
 
 Example of `connection_config` and `connection_sensitive_config` for create managed sink to Elasticsearch:
 
@@ -15,6 +13,7 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
     "input.data.format": "AVRO",
     "connection.url": "https://2c462688f1144c6e836ca9e83674b1f9.europe-west3.gcp.cloud.es.io:9243",
     "type.name": "pnp.external.output.products.0",
+    "connection.username": "elastic",
     "key.ignore": "false",
     "schema.ignore": "true",
     "compact.map.entries": "true",
@@ -27,53 +26,30 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 "connection_sensitive_config": {
     "kafka.api.key": "***********",
     "kafka.api.secret": "*********************************************************",
-    "connection.username": "**************",
     "connection.password": "**************",
 }
-
 ```
-
-Instead of defining sensitive config values directly they could be fetched from GCP secrets:
-
-```json
-"connection_gcp_secret_project": "project-abcd",
-
-"connection_gcp_secret_config": {
-    "kafka.api.key": "kafka_cluster_api_key"
-    "kafka.api.secret": "kafka_cluster_api_secret",
-    "connection.username": "elastic_username",
-    "connection.password": "elastic_password",
-}
-
-```
-
 
 ## Requirements
-
-| Name | Version |
-|------|---------|
-| shell | 1.7.7 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | google-beta | n/a |
-| shell | 1.7.7 |
+| confluentinc/confluent | 1.25.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| confluent\_api\_key | Cloud API key to control access to Confluent Cloud resources | `string` | `""` | no |
+| confluent\_api\_secret | Cloud API secret to control access to Confluent Cloud resources | `string` | `""` | no |
 | confluent\_cluster | ID of confluent cluster | `string` | n/a | yes |
 | confluent\_environment | ID of confluent environment | `string` | n/a | yes |
-| confluent\_password | Confluentcloud password or GCP secretname to extract password if var.confluent\_project\_gcp\_secret provided | `string` | `"confluent-password"` | no |
-| confluent\_project\_gcp\_secret | GCP project ID having secret for confluentcloud credentials | `string` | `"tf-admin-90301274"` | no |
-| confluent\_username | Confluentcloud username or GCP secretname to extract username if var.confluent\_project\_gcp\_secret provided | `string` | `"confluent-username"` | no |
 | connection\_config | Map of connection configuration | `map(string)` | `{}` | no |
-| connection\_gcp\_secret\_config | Map of connection configuration with gcp secret names, from which values are taken | `map(string)` | `{}` | no |
-| connection\_gcp\_secret\_project | GCP project ID having secrets for connection\_gcp\_secret\_config | `string` | `""` | no |
 | connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | `{}` | no |
+| project\_id | The ID of the project in which Kafka secrets stored (if no kafka credentials provided) | `string` | `""` | no |
 
 ## Outputs
 
