@@ -31,7 +31,7 @@ def delete_connection_config():
 
 
 def confluent_login(login, password):
-    testcmd = subprocess.run('./confluent/confluent connect list', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8', timeout=60)
+    testcmd = subprocess.run('./confluent/confluent connect cluster list', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8', timeout=60)
     if 'Error: you must log in to Confluent Cloud' in testcmd.stderr:
         logincmd = subprocess.Popen('timeout 60 ./confluent/confluent login --prompt --no-browser', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, bufsize=0, encoding='utf-8')
         logincmd.communicate('%s\n%s\n' % (login, password))
@@ -40,7 +40,7 @@ def confluent_login(login, password):
 
 
 def get_real_connection_config(environment, cluster, id):
-    cmd = subprocess.run('./confluent/confluent connect describe --environment %s --cluster %s %s -o json' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=60)
+    cmd = subprocess.run('./confluent/confluent connect cluster describe --environment %s --cluster %s %s -o json' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=60)
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
     config = {}
@@ -52,7 +52,7 @@ def get_real_connection_config(environment, cluster, id):
 
 
 def get_existing_connection_id(environment, cluster, name):
-    cmd = subprocess.run('./confluent/confluent connect list --environment %s --cluster %s -o json' % (environment, cluster), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=60)
+    cmd = subprocess.run('./confluent/confluent connect cluster list --environment %s --cluster %s -o json' % (environment, cluster), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=60)
     connectors = json.loads(cmd.stdout)
     for connector in connectors:
         if connector['name'] == name:
@@ -69,7 +69,7 @@ def create():
     id = get_existing_connection_id(environment, cluster, os.environ['CONNECTION_name']) if import_existing_connection else None
     if not id:
         create_connection_config()
-        cmd = subprocess.run('./confluent/confluent connect create --environment %s --cluster %s --config connection.config' % (environment, cluster), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=300)
+        cmd = subprocess.run('./confluent/confluent connect cluster create --environment %s --cluster %s --config connection.config' % (environment, cluster), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=300)
         delete_connection_config()
         if cmd.returncode != 0:
             sys.exit(cmd.returncode)
@@ -87,7 +87,7 @@ def delete():
     cluster = os.environ['CONFLUENT_CLUSTER']
     id = previous_output['id']
 
-    cmd = subprocess.run('./confluent/confluent connect delete --environment %s --cluster %s %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=300)
+    cmd = subprocess.run('./confluent/confluent connect cluster delete --environment %s --cluster %s %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=300)
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
 
@@ -113,7 +113,7 @@ def update():
     id = previous_output['id']
 
     create_connection_config()
-    cmd = subprocess.run('./confluent/confluent connect update --environment %s --cluster %s --config connection.config %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=300)
+    cmd = subprocess.run('./confluent/confluent connect cluster update --environment %s --cluster %s --config connection.config %s' % (environment, cluster, id), shell=True, stdout=subprocess.PIPE, encoding='utf-8', timeout=300)
     delete_connection_config()
     if cmd.returncode != 0:
         sys.exit(cmd.returncode)
