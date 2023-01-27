@@ -1,8 +1,8 @@
 terraform {
   required_providers {
-    shell = {
-      source  = "scottwinkler/shell"
-      version = "1.7.7"
+    confluent = {
+      source  = "confluentinc/confluent"
+      version = "1.25.0"
     }
     google-beta = {
       source = "hashicorp/google-beta"

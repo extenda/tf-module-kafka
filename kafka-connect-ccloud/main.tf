@@ -1,50 +1,42 @@
-data "google_secret_manager_secret_version" "confluent_username" {
+data "google_secret_manager_secret_version" "confluent_api_key" {
   provider = google-beta
 
-  count   = (var.confluent_project_gcp_secret != "") ? 1 : 0
-  project = var.confluent_project_gcp_secret
-  secret  = var.confluent_username
+  count   = (var.confluent_api_key == "" && var.project_id != "") ? 1 : 0
+  project = var.project_id
+  secret  = "confluent_api_key"
 }
 
-data "google_secret_manager_secret_version" "confluent_password" {
+data "google_secret_manager_secret_version" "confluent_api_secret" {
   provider = google-beta
 
-  count   = (var.confluent_project_gcp_secret != "") ? 1 : 0
-  project = var.confluent_project_gcp_secret
-  secret  = var.confluent_password
+  count   = (var.confluent_api_secret == "" && var.project_id != "") ? 1 : 0
+  project = var.project_id
+  secret  = "confluent_api_secret"
 }
 
-
-data "google_secret_manager_secret_version" "connection_secret_config" {
-  provider = google-beta
-
-  for_each = var.connection_gcp_secret_config
-  project  = var.connection_gcp_secret_project
-  secret   = each.value
+locals {
+  confluent_api_key    = var.confluent_api_key != "" ? var.confluent_api_key : data.google_secret_manager_secret_version.confluent_api_key[0].secret_data
+  confluent_api_secret = var.confluent_api_secret != "" ? var.confluent_api_secret : data.google_secret_manager_secret_version.confluent_api_secret[0].secret_data
 }
 
-resource "shell_script" "connection" {
-  lifecycle_commands {
-    create = "python3 ccloud.py create"
-    delete = "python3 ccloud.py delete"
-    read   = "python3 ccloud.py read"
-    update = "python3 ccloud.py update"
+provider "confluent" {
+  cloud_api_key    = local.confluent_api_key
+  cloud_api_secret = local.confluent_api_secret
+}
+
+resource "confluent_connector" "connector" {
+  environment {
+    id = var.confluent_environment
+  }
+  kafka_cluster {
+    id = var.confluent_cluster
   }
 
-  environment = merge(
-    {
-      CONFLUENT_ENVIRONMENT = var.confluent_environment,
-      CONFLUENT_CLUSTER     = var.confluent_cluster,
-    },
-    { for k, v in var.connection_config : "CONNECTION_${replace(k, ".", "__")}" => v }
-  )
+  // Block for custom *sensitive* configuration properties that are labelled with "Type: password" under "Configuration Properties" section in the docs:
+  // https://docs.confluent.io/cloud/current/connectors/cc-elasticsearch-service-sink.html#configuration-properties
+  config_sensitive = var.connection_sensitive_config
 
-  sensitive_environment = merge(
-    {
-      CONFLUENT_USERNAME = (var.confluent_project_gcp_secret != "") ? data.google_secret_manager_secret_version.confluent_username[0].secret_data : var.confluent_username
-      CONFLUENT_PASSWORD = (var.confluent_project_gcp_secret != "") ? data.google_secret_manager_secret_version.confluent_password[0].secret_data : var.confluent_password
-    },
-    { for k, v in var.connection_sensitive_config : "CONNECTION_${replace(k, ".", "__")}" => v },
-    { for k, v in var.connection_gcp_secret_config : "CONNECTION_${replace(k, ".", "__")}" => data.google_secret_manager_secret_version.connection_secret_config[k].secret_data }
-  )
+  // Block for custom *nonsensitive* configuration properties that are *not* labelled with "Type: password" under "Configuration Properties" section in the docs:
+  // https://docs.confluent.io/cloud/current/connectors/cc-elasticsearch-service-sink.html#configuration-properties
+  config_nonsensitive = var.connection_config
 }
