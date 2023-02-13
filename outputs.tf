@@ -1,17 +1,23 @@
-output "kafka_url" {
-  description = "URL of the kafka cluster"
-  value       = local.bootstrap_servers
-  sensitive   = true
-}
-
-output "key" {
+output "kafka_key" {
   description = "API Key for the Kafka cluster"
-  value       = local.kafka_key
+  value       = local.kafka_api_key
   sensitive   = true
 }
 
-output "secret" {
+output "kafka_secret" {
   description = "API Secret for the Kafka cluster"
-  value       = local.kafka_secret
+  value       = local.kafka_api_secret
+  sensitive   = true
+}
+
+output "confluent_key" {
+  description = "API Key for confluent"
+  value       = local.confluent_api_key
+  sensitive   = true
+}
+
+output "confluent_secret" {
+  description = "API Secret for confluent"
+  value       = local.confluent_api_secret
   sensitive   = true
 }
