@@ -4,12 +4,6 @@ variable project_id {
   default     = ""
 }
 
-variable kafka_url {
-  description = "URL of the kafka cluster (comma-separated list of kafka bootstrap servers)"
-  type        = string
-  default     = ""
-}
-
 variable kafka_key {
   description = "API Key for the Kafka cluster"
   type        = string
@@ -22,7 +16,6 @@ variable kafka_secret {
   default     = ""
 }
 
-
 variable topics {
   description = "Kafka topic list"
   type        = any
@@ -31,4 +24,29 @@ variable topics {
 variable acls {
   description = "Kafka ACL list"
   type        = any
+}
+
+variable confluent_api_key {
+  description = "Cloud API key to control access to Confluent Cloud resources"
+  type        = string
+  default     = ""
+}
+
+variable confluent_api_secret {
+  description = "Cloud API secret to control access to Confluent Cloud resources"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable kafka_id {
+  description = "The ID the the Kafka cluster of the form 'lkc-'"
+  type        = string
+  default     = ""
+}
+
+variable kafka_rest_endpoint {
+  description = "The REST Endpoint of the Kafka cluster"
+  type        = string
+  default     = ""
 }

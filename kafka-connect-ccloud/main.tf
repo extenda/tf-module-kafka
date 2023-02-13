@@ -52,4 +52,8 @@ resource "confluent_connector" "connector" {
   // Block for custom *nonsensitive* configuration properties that are *not* labelled with "Type: password" under "Configuration Properties" section in the docs:
   // https://docs.confluent.io/cloud/current/connectors/cc-elasticsearch-service-sink.html#configuration-properties
   config_nonsensitive = var.connection_config
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
