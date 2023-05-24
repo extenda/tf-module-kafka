@@ -55,7 +55,7 @@ resource "confluent_kafka_topic" "topic" {
   config           = each.value.config
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = var.topic_prevent_destroy
   }
 }
 
@@ -71,6 +71,6 @@ resource "confluent_kafka_acl" "acl" {
   permission    = var.acls[count.index].permission
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = var.acl_prevent_destroy
   }
 }

@@ -50,3 +50,15 @@ variable kafka_rest_endpoint {
   type        = string
   default     = ""
 }
+
+variable topic_prevent_destroy {
+  type        = bool
+  default     = true
+  description = "Set prevent destory lifecycle for the topics"
+}
+
+variable acl_prevent_destroy {
+  type        = bool
+  default     = true
+  description = "Set prevent destory lifecycle for the ACLs"
+}
