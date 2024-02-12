@@ -54,6 +54,6 @@ resource "confluent_connector" "connector" {
   config_nonsensitive = var.connection_config
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
