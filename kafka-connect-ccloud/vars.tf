@@ -50,3 +50,9 @@ variable connection_gcp_secret_config {
   type        = map(string)
   default     = {}
 }
+
+variable status {
+  description = "The status of the connector"
+  type        = string
+  default     = null
+}

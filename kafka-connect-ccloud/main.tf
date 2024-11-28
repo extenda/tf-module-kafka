@@ -53,6 +53,8 @@ resource "confluent_connector" "connector" {
   // https://docs.confluent.io/cloud/current/connectors/cc-elasticsearch-service-sink.html#configuration-properties
   config_nonsensitive = var.connection_config
 
+  status = var.status
+
   lifecycle {
     prevent_destroy = false
   }

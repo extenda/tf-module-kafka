@@ -52,6 +52,7 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 | connection\_gcp\_secret\_project | GCP project ID having secrets for connection\_gcp\_secret\_config | `string` | `""` | no |
 | connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | `{}` | no |
 | project\_id | The ID of the project in which Kafka secrets stored (if no kafka credentials provided) | `string` | `""` | no |
+| status | (Optional String) The status of the connector (one of `NONE`, `PROVISIONING`, `RUNNING`, `DEGRADED`, `FAILED`, `PAUSED`, `DELETED`). Pausing (`RUNNING` -> `PAUSED`) and resuming (`PAUSED` -> `RUNNING`) a connector is supported via an update operation. | `string` | `null` | no |
 
 ## Outputs
 
