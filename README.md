@@ -9,14 +9,14 @@ This provider creates topics and ACLs in Kafka cluster.
 
 | Name | Version |
 |------|---------|
-| confluent | 1.29.0 |
+| confluent | 2.51.0 |
 
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| confluent | 1.29.0 |
+| confluent | 2.51.0 |
 | google-beta | n/a |
 
 
