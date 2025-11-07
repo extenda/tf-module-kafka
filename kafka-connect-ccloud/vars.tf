@@ -56,3 +56,12 @@ variable status {
   type        = string
   default     = null
 }
+
+variable offsets {
+  description = "List of connector offsets configuration blocks. Each block configures offsets for the connector."
+  type = list(object({
+    partition = number
+    offset = number
+  }))
+  default = []
+}

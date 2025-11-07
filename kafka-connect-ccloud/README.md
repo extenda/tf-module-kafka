@@ -30,6 +30,29 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 }
 ```
 
+Example of using `offsets` to configure connector offsets:
+
+```hcl
+module "kafka_connector" {
+  source = "./kafka-connect-ccloud"
+  
+  confluent_environment = "env-abc123"
+  confluent_cluster     = "lkc-abc123"
+  connection_config     = { /* your config */ }
+  
+  offsets = [
+    {
+      partition = 0
+      offset    = 1000
+    },
+    {
+      partition = 1
+      offset    = 500
+    }
+  ]
+}
+```
+
 ## Requirements
 
 ## Providers
@@ -37,7 +60,7 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 | Name | Version |
 |------|---------|
 | google-beta | n/a |
-| confluentinc/confluent | 1.25.0 |
+| confluentinc/confluent | 2.51.0 |
 
 ## Inputs
 
@@ -51,6 +74,7 @@ Example of `connection_config` and `connection_sensitive_config` for create mana
 | connection\_gcp\_secret\_config | Map of connection configuration with gcp secret names, from which values are taken | `map(string)` | `{}` | no |
 | connection\_gcp\_secret\_project | GCP project ID having secrets for connection\_gcp\_secret\_config | `string` | `""` | no |
 | connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | `{}` | no |
+| offsets | List of connector offsets configuration blocks. Each block configures offsets for the connector. | `list(object({ partition = number, offset = number }))` | `[]` | no |
 | project\_id | The ID of the project in which Kafka secrets stored (if no kafka credentials provided) | `string` | `""` | no |
 | status | (Optional String) The status of the connector (one of `NONE`, `PROVISIONING`, `RUNNING`, `DEGRADED`, `FAILED`, `PAUSED`, `DELETED`). Pausing (`RUNNING` -> `PAUSED`) and resuming (`PAUSED` -> `RUNNING`) a connector is supported via an update operation. | `string` | `null` | no |
 

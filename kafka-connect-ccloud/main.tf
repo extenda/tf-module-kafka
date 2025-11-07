@@ -55,6 +55,14 @@ resource "confluent_connector" "connector" {
 
   status = var.status
 
+  dynamic "offsets" {
+    for_each = var.offsets
+    content {
+      partition = offsets.value.partition
+      offset    = offsets.value.offset
+    }
+  }
+
   lifecycle {
     prevent_destroy = false
   }
