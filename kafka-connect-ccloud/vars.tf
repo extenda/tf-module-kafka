@@ -60,8 +60,9 @@ variable status {
 variable offsets {
   description = "List of connector offsets configuration blocks. Each block configures offsets for the connector."
   type = list(object({
-    partition = number
-    offset = number
+    kafka_partition = number
+    kafka_topic     = string
+    kafka_offset    = number
   }))
   default = []
 }
