@@ -42,12 +42,14 @@ module "kafka_connector" {
   
   offsets = [
     {
-      partition = 0
-      offset    = 1000
+      kafka_partition = 0
+      kafka_topic     = "pnp.public.output.manual-approvals.v2"
+      kafka_offset    = 363287800
     },
     {
-      partition = 1
-      offset    = 500
+      kafka_partition = 2
+      kafka_topic     = "pnp.public.output.manual-approvals.v2"
+      kafka_offset    = 360196426
     }
   ]
 }
@@ -74,7 +76,7 @@ module "kafka_connector" {
 | connection\_gcp\_secret\_config | Map of connection configuration with gcp secret names, from which values are taken | `map(string)` | `{}` | no |
 | connection\_gcp\_secret\_project | GCP project ID having secrets for connection\_gcp\_secret\_config | `string` | `""` | no |
 | connection\_sensitive\_config | Map of connection configuration with sensitive data | `map(string)` | `{}` | no |
-| offsets | List of connector offsets configuration blocks. Each block configures offsets for the connector. | `list(object({ partition = number, offset = number }))` | `[]` | no |
+| offsets | List of connector offsets configuration blocks. Each block configures offsets for the connector. | `list(object({ kafka_partition = number, kafka_topic = string, kafka_offset = number }))` | `[]` | no |
 | project\_id | The ID of the project in which Kafka secrets stored (if no kafka credentials provided) | `string` | `""` | no |
 | status | (Optional String) The status of the connector (one of `NONE`, `PROVISIONING`, `RUNNING`, `DEGRADED`, `FAILED`, `PAUSED`, `DELETED`). Pausing (`RUNNING` -> `PAUSED`) and resuming (`PAUSED` -> `RUNNING`) a connector is supported via an update operation. | `string` | `null` | no |
 

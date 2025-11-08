@@ -58,8 +58,13 @@ resource "confluent_connector" "connector" {
   dynamic "offsets" {
     for_each = var.offsets
     content {
-      partition = offsets.value.partition
-      offset    = offsets.value.offset
+      partition = jsonencode({
+        kafka_partition = offsets.value.kafka_partition
+        kafka_topic     = offsets.value.kafka_topic
+      })
+      offset = jsonencode({
+        kafka_offset = offsets.value.kafka_offset
+      })
     }
   }
 
